@@ -1,0 +1,1 @@
+ml ads.txt.asm /link /subsystem:console

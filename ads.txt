@@ -1,0 +1,37 @@
+int function one (int a, int b) {
+	new int c;
+	c = (a+b)*2;
+	ret c;
+}
+int function two (string d) {
+	new int e;
+	e = len(d);
+	ret e;
+}
+int function three (int x, int y) {
+	new int z;
+	z = pows(x, y);
+	ret z;
+}
+main {
+	new int e;
+	new int f = 59;
+	new int g;
+	new string result;
+	e = (2*)17) + 9;
+	g = one(e, f);
+	if (e < g) then {
+	print (e);
+	}
+	else {
+	print (g);
+	}
+	print (g);
+	result = "My name is Diana";
+	g = two (result);
+	print (g);
+	g = three (9, 6);
+	print (g);
+	print ("Hello World!!!");
+}
+

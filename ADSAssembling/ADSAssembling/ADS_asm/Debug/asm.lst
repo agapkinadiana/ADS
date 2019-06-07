@@ -1,0 +1,236 @@
+Microsoft (R) Macro Assembler Version 14.16.27025.1	    12/17/18 14:24:52
+asm.asm							     Page 1 - 1
+
+
+				.586
+					.model flat, stdcall
+					includelib libucrt.lib
+					includelib kernel32.lib
+						includelib ../Debug/Library.lib
+					ExitProcess PROTO :DWORD
+
+					printi PROTO: DWORD
+					prints PROTO: DWORD
+					len PROTO: DWORD
+					pows PROTO: DWORD, :DWORD
+
+				.stack 4096
+ 00000000			.const
+ 00000000 00000002			L0 DWORD 2
+ 00000004 0000003B			L1 DWORD 59
+ 00000008 00000011			L2 DWORD 17
+ 0000000C 00000009			L3 DWORD 9
+ 00000010 4D 79 20 6E 61		L4 BYTE "My name is Diana", 0
+	   6D 65 20 69 73
+	   20 44 69 61 6E
+	   61 00
+ 00000021 00000006			L5 DWORD 6
+ 00000025 48 65 6C 6C 6F		L6 BYTE "Hello World!!!", 0
+	   20 57 6F 72 6C
+	   64 21 21 21 00
+ 00000034 00000000			L7 DWORD 0
+ 00000000			.data
+ 00000000 00000000			onec DWORD ?
+ 00000004 00000000			twoe DWORD ?
+ 00000008 00000000			threez DWORD ?
+ 0000000C 00000000			maine DWORD ?
+ 00000010 00000000			mainf DWORD ?
+ 00000014 00000000			maing DWORD ?
+ 00000018 00000000			mainresult DWORD ?
+
+ 00000000			.code
+
+ 00000000			one PROC onea : SDWORD, oneb : SDWORD
+ 00000003  FF 75 08			push onea
+ 00000006  FF 75 0C			push oneb
+ 00000009  58				pop eax
+ 0000000A  5B				pop ebx
+ 0000000B  03 C3			add eax, ebx
+ 0000000D  50				push eax
+ 0000000E  FF 35 00000000 R		push L0
+ 00000014  58				pop eax
+ 00000015  5B				pop ebx
+ 00000016  F7 E3			mul ebx
+ 00000018  50				push eax
+ 00000019  8F 05 00000000 R		pop onec
+ 0000001F  FF 35 00000000 R		push onec
+ 00000025  EB 00				jmp local0
+ 00000027			local0:
+ 00000027  58				pop eax
+					ret
+ 0000002C			one ENDP
+
+ 0000002C			two PROC twod : DWORD
+ 0000002F  FF 75 08			push twod
+ 00000032  5A				pop edx
+ 00000033  FF 75 08			push twod
+ 00000036  E8 00000000 E			call len
+ 0000003B  50				push eax
+ 0000003C  8F 05 00000004 R		pop twoe
+ 00000042  FF 35 00000004 R		push twoe
+ 00000048  EB 00				jmp local1
+ 0000004A			local1:
+ 0000004A  58				pop eax
+					ret
+ 0000004F			two ENDP
+
+ 0000004F			three PROC threex : SDWORD, threey : SDWORD
+ 00000052  FF 75 08			push threex
+ 00000055  FF 75 0C			push threey
+ 00000058  5A				pop edx
+ 00000059  5A				pop edx
+ 0000005A  FF 75 0C			push threey
+ 0000005D  FF 75 08			push threex
+ 00000060  E8 00000000 E			call pows
+ 00000065  50				push eax
+ 00000066  8F 05 00000008 R		pop threez
+ 0000006C  FF 35 00000008 R		push threez
+ 00000072  EB 00				jmp local2
+ 00000074			local2:
+ 00000074  58				pop eax
+					ret
+ 00000079			three ENDP
+
+ 00000079			main PROC
+ 00000079  FF 35 00000004 R		push L1
+ 0000007F  8F 05 00000010 R		pop mainf
+ 00000085  FF 35 00000000 R		push L0
+ 0000008B  FF 35 00000008 R		push L2
+ 00000091  58				pop eax
+ 00000092  5B				pop ebx
+ 00000093  F7 E3			mul ebx
+ 00000095  50				push eax
+ 00000096  FF 35 0000000C R		push L3
+ 0000009C  58				pop eax
+ 0000009D  5B				pop ebx
+ 0000009E  03 C3			add eax, ebx
+ 000000A0  50				push eax
+ 000000A1  8F 05 0000000C R		pop maine
+ 000000A7  FF 35 0000000C R		push maine
+ 000000AD  FF 35 00000010 R		push mainf
+ 000000B3  5A				pop edx
+ 000000B4  5A				pop edx
+ 000000B5  FF 35 00000010 R		push mainf
+ 000000BB  FF 35 0000000C R		push maine
+ 000000C1  E8 FFFFFF3A				call one
+ 000000C6  50				push eax
+ 000000C7  8F 05 00000014 R		pop maing
+ 000000CD  A1 0000000C R		mov eax, maine
+ 000000D2  3B 05 00000014 R		cmp eax, maing
+ 000000D8  7C 04				jl m0
+ 000000DA  7F 0F				jg m1
+ 000000DC  74 0D				je m1
+ 000000DE			m0:
+ 000000DE  FF 35 0000000C R		push maine
+ 000000E4  E8 00000000 E			call printi
+ 000000E9  EB 0B			jmp e0
+ 000000EB			m1:
+ 000000EB  FF 35 00000014 R		push maing
+ 000000F1  E8 00000000 E			call printi
+ 000000F6			e0:
+ 000000F6  FF 35 00000014 R		push maing
+ 000000FC  E8 00000000 E			call printi
+ 00000101  68 00000010 R		push offset L4
+ 00000106  8F 05 00000018 R		pop mainresult
+ 0000010C  FF 35 00000018 R		push mainresult
+ 00000112  5A				pop edx
+ 00000113  FF 35 00000018 R		push mainresult
+ 00000119  E8 FFFFFF0E				call two
+ 0000011E  50				push eax
+ 0000011F  8F 05 00000014 R		pop maing
+ 00000125  FF 35 00000014 R		push maing
+ 0000012B  E8 00000000 E			call printi
+ 00000130  FF 35 0000000C R		push L3
+ 00000136  FF 35 00000021 R		push L5
+ 0000013C  5A				pop edx
+ 0000013D  5A				pop edx
+ 0000013E  FF 35 00000021 R		push L5
+ 00000144  FF 35 0000000C R		push L3
+ 0000014A  E8 FFFFFF00				call three
+ 0000014F  50				push eax
+ 00000150  8F 05 00000014 R		pop maing
+ 00000156  FF 35 00000014 R		push maing
+ 0000015C  E8 00000000 E			call printi
+ 00000161  68 00000025 R		push offset L6
+ 00000166  E8 00000000 E			call prints
+ 0000016B  6A 00			push 0
+ 0000016D  EB 00				jmp theend
+ 0000016F			theend:
+ 0000016F  E8 00000000 E		call ExitProcess
+ 00000174			main ENDP
+				end main
+Microsoft (R) Macro Assembler Version 14.16.27025.1	    12/17/18 14:24:52
+asm.asm							     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CONST  . . . . . . . . . . . . .	32 Bit	 00000038 Para	  Public  'CONST'	 ReadOnly
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000001C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000174 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+ExitProcess  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+len  . . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000079 _TEXT	Length= 000000FB Public STDCALL
+  m0 . . . . . . . . . . . . . .	L Near	 000000DE _TEXT	
+  m1 . . . . . . . . . . . . . .	L Near	 000000EB _TEXT	
+  e0 . . . . . . . . . . . . . .	L Near	 000000F6 _TEXT	
+  theend . . . . . . . . . . . .	L Near	 0000016F _TEXT	
+one  . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000002C Public STDCALL
+  onea . . . . . . . . . . . . .	DWord	 bp + 00000008
+  oneb . . . . . . . . . . . . .	DWord	 bp + 0000000C
+  local0 . . . . . . . . . . . .	L Near	 00000027 _TEXT	
+pows . . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+printi . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+prints . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+three  . . . . . . . . . . . . .	P Near	 0000004F _TEXT	Length= 0000002A Public STDCALL
+  threex . . . . . . . . . . . .	DWord	 bp + 00000008
+  threey . . . . . . . . . . . .	DWord	 bp + 0000000C
+  local2 . . . . . . . . . . . .	L Near	 00000074 _TEXT	
+two  . . . . . . . . . . . . . .	P Near	 0000002C _TEXT	Length= 00000023 Public STDCALL
+  twod . . . . . . . . . . . . .	DWord	 bp + 00000008
+  local1 . . . . . . . . . . . .	L Near	 0000004A _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+L0 . . . . . . . . . . . . . . .	DWord	 00000000 CONST	
+L1 . . . . . . . . . . . . . . .	DWord	 00000004 CONST	
+L2 . . . . . . . . . . . . . . .	DWord	 00000008 CONST	
+L3 . . . . . . . . . . . . . . .	DWord	 0000000C CONST	
+L4 . . . . . . . . . . . . . . .	Byte	 00000010 CONST	
+L5 . . . . . . . . . . . . . . .	DWord	 00000021 CONST	
+L6 . . . . . . . . . . . . . . .	Byte	 00000025 CONST	
+L7 . . . . . . . . . . . . . . .	DWord	 00000034 CONST	
+maine  . . . . . . . . . . . . .	DWord	 0000000C _DATA	
+mainf  . . . . . . . . . . . . .	DWord	 00000010 _DATA	
+maing  . . . . . . . . . . . . .	DWord	 00000014 _DATA	
+mainresult . . . . . . . . . . .	DWord	 00000018 _DATA	
+onec . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+threez . . . . . . . . . . . . .	DWord	 00000008 _DATA	
+twoe . . . . . . . . . . . . . .	DWord	 00000004 _DATA	
+
+	   0 Warnings
+	   0 Errors
